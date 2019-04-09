@@ -14,13 +14,13 @@ namespace OpenDBDiff.OCDB
         [Option('o', "outputfile", Required = false, HelpText = "Output file of action script. If omitted, script is written to the console.")]
         public string OutputFile { get; set; }
 
-        [ParserState]
-        public IParserState LastParserState { get; set; }
+        //[ParserState]
+        //public IParserState LastParserState { get; set; }
 
-        [HelpOption]
-        public string GetUsage()
-        {
-            return HelpText.AutoBuild(this, (HelpText current) => HelpText.DefaultParsingErrorsHandler(this, current));
-        }
+        //[HelpOption]
+        //public string GetUsage()
+        //{
+        //    return HelpText.AutoBuild(this, (HelpText current) => HelpText.DefaultParsingErrorsHandler(this, current));
+        //}
     }
 }
