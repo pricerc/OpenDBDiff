@@ -35,6 +35,7 @@ namespace OpenDBDiff.Front
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataCompareForm));
             this.pnlControl = new System.Windows.Forms.Panel();
+            this.btnCommitChanges = new System.Windows.Forms.Button();
             this.lblAdded = new System.Windows.Forms.Label();
             this.lblModified = new System.Windows.Forms.Label();
             this.pnlAdded = new System.Windows.Forms.Panel();
@@ -42,7 +43,6 @@ namespace OpenDBDiff.Front
             this.btnRowToRow = new System.Windows.Forms.Button();
             this.btnMerge = new System.Windows.Forms.Button();
             this.btnUpdateRow = new System.Windows.Forms.Button();
-            this.btnCommitChanges = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.pnlSource = new System.Windows.Forms.Panel();
             this.lblSrc = new System.Windows.Forms.Label();
@@ -51,6 +51,7 @@ namespace OpenDBDiff.Front
             this.lblDestination = new System.Windows.Forms.Label();
             this.destDgv = new System.Windows.Forms.DataGridView();
             this.pnlControl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -76,6 +77,19 @@ namespace OpenDBDiff.Front
             this.pnlControl.Name = "pnlControl";
             this.pnlControl.Size = new System.Drawing.Size(787, 48);
             this.pnlControl.TabIndex = 2;
+            // 
+            // btnCommitChanges
+            // 
+            this.btnCommitChanges.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCommitChanges.BackColor = System.Drawing.Color.LightGray;
+            this.btnCommitChanges.Enabled = false;
+            this.btnCommitChanges.Location = new System.Drawing.Point(675, 6);
+            this.btnCommitChanges.Name = "btnCommitChanges";
+            this.btnCommitChanges.Size = new System.Drawing.Size(100, 30);
+            this.btnCommitChanges.TabIndex = 7;
+            this.btnCommitChanges.Text = "Commit";
+            this.btnCommitChanges.UseVisualStyleBackColor = false;
+            this.btnCommitChanges.Click += new System.EventHandler(this.btnCommitChanges_Click);
             // 
             // lblAdded
             // 
@@ -151,19 +165,6 @@ namespace OpenDBDiff.Front
             this.btnUpdateRow.UseVisualStyleBackColor = false;
             this.btnUpdateRow.Click += new System.EventHandler(this.btnUpdateRow_Click);
             // 
-            // btnCommitChanges
-            // 
-            this.btnCommitChanges.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCommitChanges.BackColor = System.Drawing.Color.LightGray;
-            this.btnCommitChanges.Enabled = false;
-            this.btnCommitChanges.Location = new System.Drawing.Point(675, 6);
-            this.btnCommitChanges.Name = "btnCommitChanges";
-            this.btnCommitChanges.Size = new System.Drawing.Size(100, 30);
-            this.btnCommitChanges.TabIndex = 7;
-            this.btnCommitChanges.Text = "Commit";
-            this.btnCommitChanges.UseVisualStyleBackColor = false;
-            this.btnCommitChanges.Click += new System.EventHandler(this.btnCommitChanges_Click);
-            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -183,8 +184,8 @@ namespace OpenDBDiff.Front
             // 
             // pnlSource
             // 
-            this.pnlSource.Controls.Add(this.lblSrc);
             this.pnlSource.Controls.Add(this.srcDgv);
+            this.pnlSource.Controls.Add(this.lblSrc);
             this.pnlSource.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlSource.Location = new System.Drawing.Point(0, 0);
             this.pnlSource.Name = "pnlSource";
@@ -204,15 +205,15 @@ namespace OpenDBDiff.Front
             // srcDgv
             // 
             this.srcDgv.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.srcDgv.Location = new System.Drawing.Point(0, 0);
+            this.srcDgv.Location = new System.Drawing.Point(0, 23);
             this.srcDgv.Name = "srcDgv";
-            this.srcDgv.Size = new System.Drawing.Size(353, 462);
+            this.srcDgv.Size = new System.Drawing.Size(353, 439);
             this.srcDgv.TabIndex = 3;
             // 
             // pnlDestination
             // 
-            this.pnlDestination.Controls.Add(this.lblDestination);
             this.pnlDestination.Controls.Add(this.destDgv);
+            this.pnlDestination.Controls.Add(this.lblDestination);
             this.pnlDestination.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlDestination.Location = new System.Drawing.Point(0, 0);
             this.pnlDestination.Name = "pnlDestination";
@@ -232,9 +233,9 @@ namespace OpenDBDiff.Front
             // destDgv
             // 
             this.destDgv.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.destDgv.Location = new System.Drawing.Point(0, 0);
+            this.destDgv.Location = new System.Drawing.Point(0, 23);
             this.destDgv.Name = "destDgv";
-            this.destDgv.Size = new System.Drawing.Size(430, 462);
+            this.destDgv.Size = new System.Drawing.Size(430, 439);
             this.destDgv.TabIndex = 3;
             // 
             // DataCompareForm
@@ -251,6 +252,7 @@ namespace OpenDBDiff.Front
             this.pnlControl.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.pnlSource.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.srcDgv)).EndInit();

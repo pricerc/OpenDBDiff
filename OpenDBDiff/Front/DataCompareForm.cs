@@ -3,6 +3,8 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 using OpenDBDiff.Schema.Model;
+using System.Linq;
+using System.Text;
 
 namespace OpenDBDiff.Front
 {
@@ -36,6 +38,72 @@ namespace OpenDBDiff.Front
             destDgv.RowHeadersVisible = false;
             destDgv.DataSource = destTable;
             destDgv.CellFormatting += new DataGridViewCellFormattingEventHandler(destDgv_CellFormatting);
+
+            srcDgv.DataError += new DataGridViewDataErrorEventHandler(dgv_DataError);
+            destDgv.DataError += new DataGridViewDataErrorEventHandler(dgv_DataError);
+
+            if (FixTimestampColumns(srcDgv) > 0)
+                srcDgv.CellFormatting +=
+                        new DataGridViewCellFormattingEventHandler(binary_CellFormatting);
+
+            if (FixTimestampColumns(destDgv) > 0)
+                destDgv.CellFormatting +=
+                        new DataGridViewCellFormattingEventHandler(binary_CellFormatting);
+
+        }
+
+        private int FixTimestampColumns(DataGridView grid)
+        {
+            var table = (DataTable)grid.DataSource;
+
+            // get readonly byte[] columns; they're *probably* a timestamp.
+            var victims = grid.Columns.OfType<DataGridViewImageColumn>()
+                .Where(gc => table.Columns[gc.DataPropertyName].ReadOnly)
+                .ToList();
+
+            foreach (var victim in victims)
+            {
+                grid.Columns.Remove(victim);
+                grid.Columns.Insert(victim.Index, new DataGridViewTextBoxColumn()
+                {
+                    ReadOnly = true
+                    ,
+                    DataPropertyName = victim.DataPropertyName
+                    ,
+                    Name = victim.Name
+                });
+            }
+            return victims.Count;
+        }
+
+        private void dgv_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            // handle errors a bit more elegantly than the default.
+            System.Diagnostics.Debug.Print(e.Exception.ToString());
+        }
+
+        private void binary_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            var grid = (DataGridView)sender;
+            if (!(grid.Columns[e.ColumnIndex] is DataGridViewTextBoxColumn)) return;
+            if (grid.Columns[e.ColumnIndex].ValueType != typeof(byte[])) return;
+
+            var table = (DataTable)grid.DataSource;
+            if (e.RowIndex >= table.Rows.Count) return;
+
+            e.Value = FormatByteArray((byte[])e.Value, 64);
+            e.FormattingApplied = true;
+            return;
+        }
+
+        private static object FormatByteArray(byte[] data, int maxLength)
+        {
+            var result = new StringBuilder(maxLength);
+            for (int i = 0; i < maxLength && i < data.Length; i++)
+            {
+                result.Append(data[i].ToString("X2"));
+            }
+            return result.ToString();
         }
 
         private void destDgv_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
